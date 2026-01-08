@@ -1,0 +1,262 @@
+<!-- templates/career_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ career.title }} - Career Path Builder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .career-header {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .career-header h1 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .roadmap-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .skill-item {
+        border-left: 4px solid #667eea;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 5px;
+        position: relative;
+        transition: all 0.3s;
+    }
+
+    .skill-item:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+
+    .skill-item.completed {
+        border-left-color: #4caf50;
+        background: #e8f5e9;
+    }
+
+    .skill-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .skill-name {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .skill-level {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .skill-level.Beginner {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .skill-level.Intermediate {
+        background: #fff3e0;
+        color: #f57c00;
+    }
+
+    .skill-level.Advanced {
+        background: #fce4ec;
+        color: #c2185b;
+    }
+
+    .skill-duration {
+        color: #666;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .skill-resources {
+        margin-top: 1rem;
+    }
+
+    .skill-resources h4 {
+        color: #764ba2;
+        margin-bottom: 0.5rem;
+    }
+
+    .resource-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .resource-tag {
+        background: #667eea;
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        cursor: pointer;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .checkbox-container label {
+        cursor: pointer;
+        font-weight: 600;
+        color: #667eea;
+    }
+
+    .progress-summary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .progress-summary h2 {
+        margin-bottom: 1rem;
+    }
+
+    .progress-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 1rem;
+    }
+
+    .progress-stat {
+        text-align: center;
+    }
+
+    .progress-stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .progress-stat-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+
+<div class="career-header">
+    <h1>{{ career.title }}</h1>
+    <p>{{ career.description }}</p>
+</div>
+
+{% set completed_count = user_progress.values()|select|list|length %}
+{% set total_count = career.skills|length %}
+{% set percentage = (completed_count / total_count * 100)|int if total_count > 0 else 0 %}
+
+<div class="progress-summary">
+    <h2>Your Progress</h2>
+    <div class="progress-stats">
+        <div class="progress-stat">
+            <div class="progress-stat-value">{{ completed_count }}/{{ total_count }}</div>
+            <div class="progress-stat-label">Skills Completed</div>
+        </div>
+        <div class="progress-stat">
+            <div class="progress-stat-value">{{ percentage }}%</div>
+            <div class="progress-stat-label">Progress</div>
+        </div>
+    </div>
+</div>
+
+<div class="roadmap-container">
+    <h2 style="color: #667eea; margin-bottom: 2rem;">📚 Learning Roadmap</h2>
+    
+    {% for skill in career.skills %}
+    <div class="skill-item {% if user_progress.get(skill.name) %}completed{% endif %}" id="skill-{{ loop.index }}">
+        <div class="skill-header">
+            <span class="skill-name">{{ loop.index }}. {{ skill.name }}</span>
+            <span class="skill-level {{ skill.level }}">{{ skill.level }}</span>
+        </div>
+        
+        <div class="skill-duration">⏱️ Estimated Time: {{ skill.duration }}</div>
+        
+        <div class="skill-resources">
+            <h4>📖 Learning Resources:</h4>
+            <div class="resource-list">
+                {% for resource in skill.resources %}
+                <span class="resource-tag">{{ resource }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="checkbox-container">
+            <input type="checkbox" 
+                   id="check-{{ loop.index }}" 
+                   {% if user_progress.get(skill.name) %}checked{% endif %}
+                   onchange="updateProgress('{{ career_id }}', '{{ skill.name }}', this.checked)">
+            <label for="check-{{ loop.index }}">Mark as completed</label>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function updateProgress(careerId, skillName, completed) {
+        fetch('{{ url_for("update_progress") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `career_id=${careerId}&skill_name=${encodeURIComponent(skillName)}&completed=${completed}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Reload page to update progress
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update progress. Please try again.');
+        });
+    }
+</script>
+{% endblock %}

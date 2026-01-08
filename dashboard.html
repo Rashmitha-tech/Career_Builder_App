@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Career Path Builder{% endblock %}
+
+{% block content %}
+<h2>Your Career Paths</h2>
+<div class="career-grid">
+    {% for cid, career in careers.items() %}
+    <div class="career-card">
+        <h3>{{ career.title }}</h3>
+        <p>{{ career.description }}</p>
+        <p>Progress: 
+            {% set total = career.skills|length %}
+            {% set completed = user_progress.get(cid, {}).values()|select('equalto', True)|list|length %}
+            {{ completed }}/{{ total }}
+        </p>
+        <a href="{{ url_for('career_detail', career_id=cid) }}" class="btn btn-primary">View Details</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

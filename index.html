@@ -1,0 +1,121 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        margin-top: 2rem;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        color: #764ba2;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 3rem;
+        background: white;
+        border-radius: 10px;
+    }
+
+    .cta-section h2 {
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>🎯 Build Your Career Path</h1>
+    <p>Identify skill gaps and get personalized learning roadmaps</p>
+    <div class="cta-buttons">
+        <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">Get Started Free</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary" style="font-size: 1.2rem; padding: 1rem 2rem;">Login</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3>Career Paths</h3>
+        <p>Choose from multiple career paths including Web Development, Data Science, Mobile Development, and more</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Skill Assessment</h3>
+        <p>Identify your current skills and discover what you need to learn next</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>Learning Roadmap</h3>
+        <p>Get step-by-step guidance with curated resources and estimated timelines</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Track Progress</h3>
+        <p>Monitor your learning journey and celebrate your achievements</p>
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>Ready to Start Your Journey?</h2>
+    <p style="font-size: 1.1rem; color: #666;">Join thousands of learners building their dream careers</p>
+    <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 2rem; margin-top: 1rem;">Create Free Account</a>
+</div>
+{% endblock %}

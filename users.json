@@ -1,0 +1,14 @@
+{
+  "1": {
+    "name": "Rashmitha",
+    "email": "naikrashmitha120@gmail.com",
+    "password": "scrypt:32768:8:1$CPH44kvqM9mk4adH$acb6770d227c524f336b01b8cf7a4028e32667deadd7925f7da24f5ae11b543370865d7a3100d8bf7980534b4e11404e4295d46b553825f013ec212699acfb6c",
+    "created_at": "2026-01-08T16:17:45.314352"
+  },
+  "2": {
+    "name": "SAHANA SHEKAR C",
+    "email": "sahanashekar2004@gmail.com",
+    "password": "scrypt:32768:8:1$fXKHVrQ2ccxazcjG$b4c775a17bf71735b76ac3eb93b234a54f651b70f4f8c201aa96ebb63359790eebfb8a75ef745e995fb68c9b6af22886d12e076d1af4310b06773fd0b5dc3a6c",
+    "created_at": "2026-01-08T16:33:37.015867"
+  }
+}
